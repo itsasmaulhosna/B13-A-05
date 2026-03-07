@@ -12,7 +12,7 @@ const signIn = document
     // match
     if (userId === 'admin' && pinId === 'admin123') {
       alert('Sign In successfully');
-      window.location.assign('/B-13-A-05/home.html');
+      window.location.href = 'home.html';
     } else {
       alert('Sign In failed');
       return;
