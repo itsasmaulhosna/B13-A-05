@@ -4,6 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GitHub-Issue-Tracker</title>
+    <!-- tailwind & deysui -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body></body>
+
+  <body class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white rounded-xl p-10 w-[440px] text-center shadow-2xl">
+      <img class="mx-auto w-[98px]" src="./assets/github-logo.png" />
+      <h2 class="text-2xl font-bold mt-6">GitHub Issues Tracker</h2>
+      <p class="text-sm text-gray-400">Sign in to manage your issues</p>
+
+      <!-- form -->
+      <div class="card w-full rounded-xl">
+        <fieldset class="fieldset">
+          <label class="label font-semibold text-sm text-black">Username</label>
+          <input
+            type="email"
+            class="input w-full"
+            placeholder="Enter Username"
+          />
+          <p class="text-left text-purple-800 mb-5">Default:admin</p>
+
+          <label class="label font-semibold text-sm text-black">Password</label>
+          <input
+            type="password"
+            class="input w-full"
+            placeholder="Enter Password"
+          />
+          <p class="text-left text-purple-800 mb-5">Default:admin123</p>
+
+          <button class="btn btn-primary w-full">Sign In</button>
+        </fieldset>
+      </div>
+      <div class="divider mb-3">OR</div>
+      <p class="text-sm text-gray-300 mb-5">Demo Credentials</p>
+      <div class="bg-gray-200 mx-auto text-center p-6 rounded-xl">
+        <p class="text-sm text-gray-400">Username:admin</p>
+        <p class="text-sm text-gray-400">Password:admin123</p>
+      </div>
+    </div>
+    <script src="./script/index.js"></script>
+  </body>
 </html>
