@@ -44,9 +44,27 @@
     </div>
     <div class="w-[80%] mx-auto bg-white rounded p-5 mb-5">
       <div class="flex gap-4">
-        <button class="btn btn-primary pl-8 pr-8">All</button>
-        <button class="text-gray-400 btn pl-8 pr-8">Open</button>
-        <button class="text-gray-400 btn pl-8 pr-8">Close</button>
+        <button
+          id="allBtn"
+          class="btn btn-primary pl-8 pr-8"
+          onclick="selectBtn(id, this)"
+        >
+          All
+        </button>
+        <button
+          id="openBtn"
+          class="text-gray-400 btn pl-8 pr-8"
+          onclick="selectBtn(id, this)"
+        >
+          Open
+        </button>
+        <button
+          id="closeBtn"
+          class="text-gray-400 btn pl-8 pr-8"
+          onclick="selectBtn(id, this)"
+        >
+          Close
+        </button>
       </div>
     </div>
     <div
@@ -80,7 +98,14 @@
     <div
       id="issues-container"
       class="w-[80%] mx-auto space-y-5 gap-3 grid grid-cols-1 md:grid-cols-3 mt-4"
-    ></div>
+    >
+      <div
+        id="loddingSpinner"
+        class="h-[60vh] flex justify-center items-center hidden"
+      >
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>
+    </div>
     <script src="./script/home.js"></script>
   </body>
 </html>

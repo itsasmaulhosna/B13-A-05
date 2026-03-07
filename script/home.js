@@ -1,13 +1,56 @@
 // get id
-
 const issuesContainer = document.getElementById('issues-container');
+const loddingSpinner = document.getElementById('loddingSpinner');
+const allButton = document.getElementById('allBtn');
+const openButton = document.getElementById('openBtn');
+const closeButton = document.getElementById('closeBtn');
+const buttons = [allButton, openButton, closeButton];
+
+allButton.addEventListener('click', () => {
+  buttons.forEach((btn) => {
+    if (btn === allButton) {
+      btn.classList.add('btn-primary');
+      btn.classList.remove('btn-outline');
+    } else {
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-outline');
+    }
+  });
+
+  loadIssue(); // fetch all issues
+});
 // function
+async function selectBtn(id, btn) {
+  showSpinner();
+  const allBtn = document.querySelectorAll('#allBtn,#openBtn,#closeBtn');
+  allBtn.forEach((btn) => {
+    btn.classList.remove('btn-primary');
+    btn.classList.add('btn-outline');
+  });
+  btn.classList.add('btn-primary');
+  btn.classList.remove('btn-outline');
+  const res = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`,
+  );
+  const data = await res.json();
+  displayIssue(data);
+  hideSpinner();
+}
+function showSpinner() {
+  loddingSpinner.classList.remove('hidden');
+}
+function hideSpinner() {
+  loddingSpinner.classList.add('hidden');
+}
 async function loadIssue() {
+  showSpinner();
+
   const res = await fetch(
     'https://phi-lab-server.vercel.app/api/v1/lab/issues',
   );
   const data = await res.json();
   displayIssue(data.data);
+  hideSpinner();
 }
 // {
 //     "id": 48,
@@ -23,6 +66,7 @@ async function loadIssue() {
 //     "createdAt": "2024-02-09T14:20:00Z",
 //     "updatedAt": "2024-02-09T14:20:00Z"
 // }
+// display
 
 function displayIssue(issues) {
   issuesContainer.innerHTML = '';
@@ -50,7 +94,7 @@ function displayIssue(issues) {
     const statusIcon =
       issue.status === 'open'
         ? './assets/Open-Status.png'
-        : './assets/Closed- Status .png';
+        : './assets/Closed-Status.png';
     console.log(issue);
     const div = document.createElement('div');
     div.innerHTML = `
