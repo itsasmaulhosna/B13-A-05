@@ -102,7 +102,7 @@ function displayIssue(issues) {
           color = 'bg-yellow-100 text-yellow-500';
         }
 
-        return `<span class="${color} rounded-3xl px-3 py-1 text-sm mr-2"> ${label.toUpperCase()}</span>`;
+        return `<span class="${color} rounded-3xl px-3 py-1 text-sm mr-2">  ${label.toUpperCase()}</span>`;
       })
       .join('');
     const priorityColor =
@@ -125,7 +125,7 @@ function displayIssue(issues) {
           <img src='${statusIcon}'/>
           <span class="bg-${priorityColor}/20 text-${priorityColor} rounded-3xl p-2 px-5">${issue.priority.toUpperCase()}</span>
         </div>
-        <h2 class="text-xl font-semibold mb-3 cursor-pointer issue-title"  >
+        <h2 class="text-xl font-semibold mb-3 cursor-pointer" onclick="openIssueModals(${issue.id})" >
           ${issue.title}
         </h2>
         <p class="line-clamp-2 text-gray-400 mb-4">
@@ -139,9 +139,6 @@ function displayIssue(issues) {
       </div>
 
     `;
-    div.querySelector('.issue-title').addEventListener('click', () => {
-      openIssueModals(issue.id);
-    });
     issuesContainer.append(div);
   }
 }
@@ -207,5 +204,26 @@ function updateCount(status) {
       : allIssues.filter((issue) => issue.status === status).length;
   issueCount.textContent = `${count} issues`;
 }
+document.getElementById('btn-search').addEventListener('click', () => {
+  const input = document.getElementById('input-search');
+  const searchValue = input.value.trim().toLowerCase();
 
+  fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchValue}`,
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      searchIssue = data.data;
+
+      const filterIssue = searchIssue.filter((issue) => {
+        const title = issue.title || '';
+        const desc = issue.description || '';
+        return (
+          title.toLowerCase().includes(searchValue) ||
+          desc.toLowerCase().includes(searchValue)
+        );
+      });
+      displayIssue(filterIssue);
+    });
+});
 loadIssue();
