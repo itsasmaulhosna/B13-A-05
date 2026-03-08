@@ -5,7 +5,18 @@ const allButton = document.getElementById('allBtn');
 const openButton = document.getElementById('openBtn');
 const closeButton = document.getElementById('closeBtn');
 const issueCount = document.getElementById('issue-count');
+const category = document.getElementById('modalCategory');
+const title = document.getElementById('modalTitle');
+const priority = document.getElementById('modalPriority');
+const description = document.getElementById('modalDescription');
+const author = document.getElementById('modalAuthor');
+const created = document.getElementById('modalCreated');
+const labels = document.getElementById('modalLabels');
+const details = document.getElementById('issue-detail');
+const assignee = document.getElementById('modalAssign');
+
 let allIssues = [];
+let issuesToShow = [];
 const buttons = [allButton, openButton, closeButton];
 
 allButton.addEventListener('click', () => {
@@ -40,7 +51,6 @@ async function selectBtn(status, btn) {
   });
   btn.classList.add('btn-primary');
   btn.classList.remove('btn-outline');
-  let issuesToShow = [];
 
   if (status === 'all') {
     issuesToShow = allIssues;
@@ -53,16 +63,6 @@ async function selectBtn(status, btn) {
 }
 loadIssue();
 
-// async function loadIssue() {
-//   showSpinner();
-
-//   const res = await fetch(
-//     'https://phi-lab-server.vercel.app/api/v1/lab/issues',
-//   );
-//   const data = await res.json();
-//   displayIssue(data.data);
-//   hideSpinner();
-// }
 // {
 //     "id": 48,
 //     "title": "Browser console shows warnings",
@@ -77,7 +77,6 @@ loadIssue();
 //     "createdAt": "2024-02-09T14:20:00Z",
 //     "updatedAt": "2024-02-09T14:20:00Z"
 // }
-// display
 
 async function loadIssue() {
   showSpinner();
@@ -120,13 +119,13 @@ function displayIssue(issues) {
     const div = document.createElement('div');
     div.innerHTML = `
     <div class="bg-white h-full  p-6 rounded-xl shadow border-t-4 ${
-      issue.status === 'open' ? 'border-green-500' : 'border-gray-400'
+      issue.status === 'open' ? 'border-green-500' : 'border-purple-400'
     }">
         <div class="flex justify-between items-center mb-3">
           <img src='${statusIcon}'/>
           <span class="bg-${priorityColor}/20 text-${priorityColor} rounded-3xl p-2 px-5">${issue.priority.toUpperCase()}</span>
         </div>
-        <h2 class="text-xl font-semibold mb-3">
+        <h2 class="text-xl font-semibold mb-3 cursor-pointer issue-title"  >
           ${issue.title}
         </h2>
         <p class="line-clamp-2 text-gray-400 mb-4">
@@ -140,10 +139,68 @@ function displayIssue(issues) {
       </div>
 
     `;
+    div.querySelector('.issue-title').addEventListener('click', () => {
+      openIssueModals(issue.id);
+    });
     issuesContainer.append(div);
   }
 }
+async function openIssueModals(issueId) {
+  showSpinner();
+  const res = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`,
+  );
+  const data = await res.json();
+  const issue = data.data;
+  const createdDate = new Date(issue.createdAt).toLocaleDateString();
+
+  title.textContent = issue.title;
+  description.textContent = issue.description;
+  author.textContent = issue.author;
+  created.textContent = createdDate;
+  assignee.textContent = issue.author;
+  // status
+  if (issue.status === 'open') {
+    category.textContent = 'Opened';
+    category.className = 'badge bg-green-500 text-white';
+  } else {
+    category.textContent = 'Closed';
+    category.className = 'badge bg-purple-500 text-white';
+  }
+  //  priority
+  if (issue.priority === 'high') {
+    priority.textContent = 'HIGH';
+    priority.className = 'badge bg-red-100 text-red-500';
+  } else if (issue.priority === 'medium') {
+    priority.textContent = 'MEDIUM';
+    priority.className = 'badge bg-yellow-100 text-yellow-500';
+  } else {
+    priority.textContent = 'LOW';
+    priority.className = 'badge bg-gray-100 text-gray-500';
+  }
+  // label
+  labels.innerHTML = issue.labels
+    .map((label, index) => {
+      let color = '';
+
+      if (index === 0) {
+        color = 'bg-red-100 text-red-500';
+      } else if (index === 1) {
+        color = 'bg-yellow-100 text-yellow-500';
+      }
+
+      return `<span class="${color} rounded-3xl px-3 py-1 text-sm mr-2"> ${label.toUpperCase()}</span>`;
+    })
+    .join('');
+
+  if (details) {
+    details.showModal();
+  }
+  hideSpinner();
+}
+
 function updateCount(status) {
+  showSpinner();
   let count =
     status === 'all'
       ? allIssues.length
