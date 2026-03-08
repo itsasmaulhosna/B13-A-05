@@ -47,21 +47,21 @@
         <button
           id="allBtn"
           class="btn btn-primary pl-8 pr-8"
-          onclick="selectBtn(id, this)"
+          onclick="selectBtn('all', this)"
         >
           All
         </button>
         <button
           id="openBtn"
           class="text-gray-400 btn pl-8 pr-8"
-          onclick="selectBtn(id, this)"
+          onclick="selectBtn('open', this)"
         >
           Open
         </button>
         <button
           id="closeBtn"
           class="text-gray-400 btn pl-8 pr-8"
-          onclick="selectBtn(id, this)"
+          onclick="selectBtn('closed', this)"
         >
           Close
         </button>
@@ -76,7 +76,7 @@
           src="./assets/Aperture.png"
         />
         <div>
-          <p class="font-semibold">50 issues</p>
+          <p id="issue-count" class="font-semibold">50 issues</p>
           <p class="text-gray-400">Track and Manage your project issues</p>
         </div>
       </div>
@@ -88,7 +88,7 @@
 
         <div class="flex items-center gap-2">
           <span class="w-3 h-3 bg-purple-500 rounded-full"></span>
-          <p>Closed</p>
+          <p>Close</p>
         </div>
       </div>
     </div>
