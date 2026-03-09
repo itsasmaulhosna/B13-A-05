@@ -92,8 +92,22 @@ function displayIssue(issues) {
   issuesContainer.innerHTML = '';
   for (let issue of issues) {
     const createdDate = new Date(issue.createdAt).toLocaleDateString();
+
     const labelHtml = issue.labels
       .map((label, index) => {
+        let icon = '';
+
+        if (label.toLowerCase().includes('bug')) {
+          icon = '<i class="fa-solid fa-bug"></i>';
+        } else if (label.toLowerCase().includes('help')) {
+          icon = '<i class="fa-solid fa-handshake-angle"></i>';
+        } else if (label.toLowerCase().includes('doc')) {
+          icon = '<i class="fa-solid fa-file-lines"></i>';
+        } else if (label.toLowerCase().includes('good')) {
+          icon = '<i class="fa-solid fa-thumbs-up"></i>';
+        } else if (label.toLowerCase().includes('enhancement')) {
+          icon = '<i class="fa-solid fa-wand-magic-sparkles"></i>';
+        }
         let color = '';
 
         if (index === 0) {
@@ -102,7 +116,7 @@ function displayIssue(issues) {
           color = 'bg-yellow-100 text-yellow-500';
         }
 
-        return `<span class="${color} rounded-3xl px-3 py-1 text-sm mr-2">  ${label.toUpperCase()}</span>`;
+        return `<span class="${color} rounded-3xl px-3 py-1 text-sm mr-2"> ${icon} ${label.toUpperCase()}</span>`;
       })
       .join('');
     const priorityColor =
@@ -178,6 +192,19 @@ async function openIssueModals(issueId) {
   // label
   labels.innerHTML = issue.labels
     .map((label, index) => {
+      let icon = '';
+
+      if (label.toLowerCase().includes('bug')) {
+        icon = '<i class="fa-solid fa-bug"></i>';
+      } else if (label.toLowerCase().includes('help')) {
+        icon = '<i class="fa-solid fa-handshake-angle"></i>';
+      } else if (label.toLowerCase().includes('doc')) {
+        icon = '<i class="fa-solid fa-file-lines"></i>';
+      } else if (label.toLowerCase().includes('good')) {
+        icon = '<i class="fa-solid fa-thumbs-up"></i>';
+      } else if (label.toLowerCase().includes('enhancement')) {
+        icon = '<i class="fa-solid fa-wand-magic-sparkles"></i>';
+      }
       let color = '';
 
       if (index === 0) {
@@ -186,7 +213,7 @@ async function openIssueModals(issueId) {
         color = 'bg-yellow-100 text-yellow-500';
       }
 
-      return `<span class="${color} rounded-3xl px-3 py-1 text-sm mr-2"> ${label.toUpperCase()}</span>`;
+      return `<span class="${color} rounded-3xl px-3 py-1 text-sm mr-2">${icon} ${label.toUpperCase()}</span>`;
     })
     .join('');
 

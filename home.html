@@ -23,14 +23,14 @@
   <body class="bg-gray-100">
     <!-- navbar -->
     <div class="navbar bg-base-100 shadow-sm mb-10">
-      <div class="w-11/12 mx-auto flex justify-between items-center">
+      <div class="w-11/12 mx-auto md:flex justify-between items-center">
         <div class="flex justify-center items-center">
           <img class="w-10" src="./assets/github-logo.png" />
           <a class="btn btn-ghost text-xl">GitHub Issues Tracker</a>
         </div>
         <div class="flex gap-2">
           <label
-            class="input input-bordered flex items-center gap-2 w-24 md:w-[300px]"
+            class="input input-bordered flex items-center gap-2 w-45 mt-2 md:w-[300px]"
           >
             <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
             <input
@@ -42,7 +42,7 @@
           </label>
 
           <div class="rounded-xl">
-            <button id="btn-search" class="btn btn-primary cursor-pointer">
+            <button id="btn-search" class="btn btn-primary cursor-pointer mt-2">
               + New issues
             </button>
           </div>
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="w-[80%] mx-auto bg-white rounded p-5 mb-5">
-      <div class="flex gap-4">
+      <div class="flex-wrap md:flex gap-4">
         <button
           id="allBtn"
           class="btn btn-primary pl-8 pr-8"
